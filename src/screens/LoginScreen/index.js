@@ -4,6 +4,7 @@ import { styles } from './style';
 import { InputField } from '../../components/InputField';
 import Login from '../../api/Login';
 import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 export default function LoginScreen() {
 
     const navigation = useNavigation();
@@ -16,7 +17,10 @@ export default function LoginScreen() {
     const updatePassword = (password) => setUserLogin(prev => ({ ...prev, password }));
 
     const LoginPress = () => {
-        Login.userLogin(userLogin.username, userLogin.password).then(res => navigation.navigate('MainApp', { userToken: res.data.access_token }))
+        Login.userLogin(userLogin.username, userLogin.password).then(res => {
+            console.log(res.data);
+            navigation.navigate('MainApp', { userToken: res.data.access_token });
+        })
             .catch(e => console.log(e))
     }
     return (
@@ -30,6 +34,9 @@ export default function LoginScreen() {
                         source={require('../../assets/res/UserLogo.jpg')} value={userLogin.username} onChange={updateUsername} />
                     <InputField container={styles.inputField} imageView={styles.imageView} image={styles.image} inputView={styles.mainInput} placeholder='Password'
                         source={require('../../assets/res/PassLogo.png')} value={userLogin.password} onChange={updatePassword} />
+                    <TouchableOpacity style={styles.logButton} onPress={LoginPress}>
+                        <Text style={{ fontSize: 14 }}>Login</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </SafeAreaView>

@@ -1,6 +1,9 @@
 import React from 'react';
-import {View, TouchableOpacity, Text, Image} from 'react-native';
+import { View, TouchableOpacity, Text, Image } from 'react-native';
 
-export const NavigateButton = props => {
-  return <TouchableOpacity></TouchableOpacity>;
+export const NavigateButton = ({ navigation, apiCall, screen, params }) => {
+  const navigate = () => navigation.navigate(screen, params)
+  return <TouchableOpacity>
+
+  </TouchableOpacity>;
 };
