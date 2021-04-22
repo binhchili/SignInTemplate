@@ -19,7 +19,7 @@ export default function LoginScreen() {
     const LoginPress = () => {
         Login.userLogin(userLogin.username, userLogin.password).then(res => {
             console.log(res.data);
-            navigation.navigate('MainApp', { userToken: res.data.access_token });
+            navigation.navigate('MainApp', { screen: 'HomeScreen', params: { userToken: res.data.access_token } });
         })
             .catch(e => console.log(e))
     }

@@ -1,17 +1,17 @@
 import React from 'react';
-import {View, StyleSheet, TouchableOpacity, Image, Text} from 'react-native';
-import {DEEP_BLUE, LIGHT_GRAY} from '../constraints/color';
+import { View, StyleSheet, TouchableOpacity, Image, Text } from 'react-native';
+import { DEEP_BLUE, LIGHT_GRAY } from '../constraints/color';
 
-export const TabBar = ({state, descriptors, navigation}) => (
+export const TabBar = ({ state, descriptors, navigation }) => (
   <View style={styles.tabContainer}>
     {state.routes.map((route, index) => {
-      const {options} = descriptors[route.key];
+      const { options } = descriptors[route.key];
       const label =
         options.tabBarLabel !== undefined
           ? options.tabBarLabel
           : options.title !== undefined
-          ? options.title
-          : route.name;
+            ? options.title
+            : route.name;
 
       const onPress = () => {
         const event = navigation.emit({
@@ -24,17 +24,21 @@ export const TabBar = ({state, descriptors, navigation}) => (
         }
       };
 
+      const isFocused = state.index === index;
+
       return (
-        <TouchableOpacity onPress={onPress} style={styles.tabBar}>
+        <TouchableOpacity onPress={onPress} style={styles.tabBar} accessibilityRole="button"
+          accessibilityState={isFocused ? { selected: true } : {}} accessibilityLabel={options.tabBarAccessibilityLabel}
+          key={index}>
           <View style={styles.imageView}>
             <Image
               source={options.img}
-              style={{width: '100%', height: '100%'}}
+              style={{ width: '100%', height: '100%' }}
             />
           </View>
           <Text
             style={
-              state.index === index ? styles.focusTitle : styles.unfocusTitle
+              isFocused ? styles.focusTitle : styles.unfocusTitle
             }>
             {label}
           </Text>
@@ -48,7 +52,7 @@ const styles = StyleSheet.create({
   tabContainer: {
     flexDirection: 'row',
     width: '100%',
-    height: '15%',
+    height: '8%',
   },
   tabBar: {
     flex: 1,

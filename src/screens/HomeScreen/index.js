@@ -5,7 +5,11 @@ import Login from '../../api/Login';
 export default function HomeScreen({ route }) {
     const [name, setName] = useState('');
     useEffect(() => {
-        Login.userInfo(route.userToken).then(res => setName(res.data.name)).catch(() => setName("Co loi xay ra"))
+        console.log(JSON.stringify(route));
+        Login.userInfo(route.params.userToken).then(res => setName(res.data.name)).catch((e) => {
+            setName("Co loi xay ra");
+            console.log(JSON.stringify(e));
+        })
     }, [])
     return (
         <SafeAreaView>
