@@ -1,18 +1,17 @@
 export default class ActionUtil {
   static async createThunkEffect(dispatch, actionType, effect, ...args) {
-    dispatch(ActionUtility.createAction(actionType));
+    dispatch(ActionUtility.createAction(actionType)); //loading
 
-    const model = await effect(...args);
-    const isError = model instanceof HttpErrorResponseModel;
+    const response = await effect(...args);
 
     dispatch(
-      ActionUtility.createAction(`${actionType}_FINISHED`, model, isError),
+      ActionUtility.createAction(`${actionType}_FINISHED`, response.code, response.paramCode, response.status, response.data),
     );
 
-    return model;
+    return response;
   }
 
-  static createAction(type, payload, error = false, meta = null) {
-    return {type, payload, error, meta};
+  static createAction(type, code, param = null, status, data = null) {
+    return { type, code, param, status, data };
   }
 }

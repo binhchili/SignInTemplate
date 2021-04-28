@@ -1,4 +1,7 @@
-export const DOMAIN_NAME = 'http://26e949d02923.ngrok.io/';
-export const REALM = 'SSO';
-export const CLIENT_ID = 'new-client';
-export const CLIENT_SECRET = '472a98cf-c6ec-45af-8af2-27260369d415';
+
+export const Enviroment = {
+    DOMAIN_NAME: 'http://10.15.24.74:8080/',
+    APP_CODE: 'HORUS',
+    ADMIN_USER: 'admin',
+    ADMIN_PASS: '123'
+}
