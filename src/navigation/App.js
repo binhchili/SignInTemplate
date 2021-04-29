@@ -11,12 +11,6 @@ import LoginAction from '../redux-store/login/LoginAction'
 const Root = createStackNavigator();
 
 export default function App() {
-
-    useEffect(() => {
-        return () => {
-            store.dispatch({ type: LoginAction.DELETE_LOG_TIME })
-        }
-    })
     return (
         <Provider store={store}>
             <PersistGate persistor={persistor} loading={<LoadingScreen />}>

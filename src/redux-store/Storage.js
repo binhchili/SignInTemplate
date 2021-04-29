@@ -8,7 +8,9 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    stateReconciler: autoMergeLevel2
+    stateReconciler: autoMergeLevel2,
+    blacklist: ['loginInfo']
+
 }//config cách thức lấy data từ localStorage
 const persist = persistReducer(persistConfig, RootReducer);//reducer đã config storage của redux-persist
 export const store = createStore(persist, applyMiddleware(thunk));

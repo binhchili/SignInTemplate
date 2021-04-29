@@ -38,6 +38,8 @@ const LoginScreen = (props) => {
     }, [ticket])
 
     useEffect(() => {
+        console.log(logTime);
+        console.log(ticket);
         if (logTime != null && logTime != undefined) navigation.navigate('MainApp');
     }, [logTime])
 
@@ -64,11 +66,11 @@ const LoginScreen = (props) => {
 }
 
 const mapStateToProps = state => ({
-    logging: state.LoginReducer.logging,
-    ticket: state.LoginReducer.ticket,
-    logTime: state.LoginReducer.loggedTime,
-    isError: state.LoginReducer.error,
-    msg: state.LoginReducer.message
+    logging: state.loginInfo.logging,
+    ticket: state.loginInfo.ticket,
+    logTime: state.loginInfo.loggedTime,
+    isError: state.loginInfo.error,
+    msg: state.loginInfo.message
 })
 
 const mapDispatchToProps = dispatch => ({

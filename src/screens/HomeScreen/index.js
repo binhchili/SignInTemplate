@@ -8,7 +8,9 @@ const HomeScreen = (props) => {
     useEffect(() => {
         console.log(userTicket);
         console.log(JSON.stringify(identity));
+
     }, [])
+
     return (
         <SafeAreaView>
             <View style={{ width: '100%', height: '100%', backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
@@ -19,9 +21,9 @@ const HomeScreen = (props) => {
 }
 
 const mapStateToProps = state => ({
-    userTicket: state.UserReducer.userTicket,
-    identity: state.UserReducer.userIdentity,
-    listGroup: state.UserReducer.listGroup
+    userTicket: state.userInfo.userTicket,
+    identity: state.userInfo.userIdentity,
+    listGroup: state.userInfolistGroup
 })
 
 export default connect(mapStateToProps, null)(HomeScreen)
