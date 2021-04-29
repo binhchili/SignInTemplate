@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'raect-redux';
 import { View, SafeAreaView, Text, Image } from 'react-native';
 import { styles } from './style';
 import { InputField } from '../../components/InputField';
 import Login from '../../api/Login';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-export default function LoginScreen() {
+import LoginAction from '../../redux-store/login/LoginAction';
 
+const LoginScreen = (props) => {
+
+    const { logging, ticket, logTime, isError, msg } = props; // state cua phan login
+    const { login, validate } = props;//dispatch action phan login
     const navigation = useNavigation();
     const [userLogin, setUserLogin] = useState({
         username: '',
@@ -17,12 +22,24 @@ export default function LoginScreen() {
     const updatePassword = (password) => setUserLogin(prev => ({ ...prev, password }));
 
     const LoginPress = () => {
-        Login.userLogin(userLogin.username, userLogin.password).then(res => {
-            console.log(res.data);
-            navigation.navigate('MainApp', { screen: 'HomeScreen', params: { userToken: res.data.access_token } });
-        })
-            .catch(e => console.log(e))
+        login(userLogin.username, userLogin.password);
     }
+
+    useEffect(() => {
+        console.log("Logging: " + logging);
+    }, [logging])
+
+    useEffect(() => {
+        if (isError) console.log("error happened: " + msg);
+    }, [isError])
+
+    useEffect(() => {
+        if (ticket !== null && ticket != undefined) validate(ticket)
+    }, [ticket])
+
+    useEffect(() => {
+        if (logTime != null && logTime != undefined) navigation.navigate('Home');
+    }, [logTime])
     return (
         <SafeAreaView>
             <View style={styles.mainScreen}>
@@ -41,7 +58,20 @@ export default function LoginScreen() {
             </View>
         </SafeAreaView>
 
-
-
     )
 }
+
+const mapStateToProps = state => ({
+    logging: state.LoginReducer.logging,
+    ticket: state.LoginReducer.ticket,
+    logTime: state.Login.LoginReducer.loggedTime,
+    isError: state.LoginReducer.error,
+    msg: state.LoginReducer.message
+})
+
+const mapDispatchToProps = dispatch => ({
+    login: (username, password) => dispatch(LoginAction.LoginSSO(username, password)),
+    validate: tick => dispatch(LoginAction.ValidateTicket(tick))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)
