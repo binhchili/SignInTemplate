@@ -10,5 +10,7 @@ export const UserReducer = (state = initialState, action) => {
     switch (type) {
         case LoginAction.REQUEST_TICKETVALIDATE_FINISHED:
             return { ...state, userTicket: data.serviceTicket, userIdentity: data.identity, listGroup: data.listGroup }
+        default:
+            return state
     }
 }

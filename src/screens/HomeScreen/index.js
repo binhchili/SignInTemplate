@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import { SafeAreaView, View, Text } from 'react-native';
 import Login from '../../api/Login';
 
-export default function HomeScreen({ route }) {
-    const [name, setName] = useState('');
+const HomeScreen = (props) => {
+    const { userTicket, identity, listGroup } = props;
     useEffect(() => {
-        console.log(JSON.stringify(route));
-        Login.userInfo(route.params.userToken).then(res => setName(res.data.name)).catch((e) => {
-            setName("Co loi xay ra");
-            console.log(JSON.stringify(e));
-        })
+        console.log(userTicket);
+        console.log(JSON.stringify(identity));
     }, [])
     return (
         <SafeAreaView>
             <View style={{ width: '100%', height: '100%', backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
-                <Text style={{ fontSize: 15 }}>{`User info : ${name}`}</Text>
+                <Text style={{ fontSize: 15 }}>Hello</Text>
             </View>
         </SafeAreaView>
     )
 }
+
+const mapStateToProps = state => ({
+    userTicket: state.UserReducer.userTicket,
+    identity: state.UserReducer.userIdentity,
+    listGroup: state.UserReducer.listGroup
+})
+
+export default connect(mapStateToProps, null)(HomeScreen)

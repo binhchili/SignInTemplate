@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware } from 'redux'
-import { rootReducer } from './rootReducer'
+import { RootReducer } from './rootReducer'
 import thunk from 'redux-thunk'
 import { persistReducer, persistStore } from 'redux-persist'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -10,6 +10,6 @@ const persistConfig = {
     storage: AsyncStorage,
     stateReconciler: autoMergeLevel2
 }//config cách thức lấy data từ localStorage
-const persist = persistReducer(persistConfig, rootReducer);//reducer đã config storage của redux-persist
+const persist = persistReducer(persistConfig, RootReducer);//reducer đã config storage của redux-persist
 export const store = createStore(persist, applyMiddleware(thunk));
 export const persistor = persistStore(store);//xuất ra persistor để lấy dữ liệu

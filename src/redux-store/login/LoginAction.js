@@ -10,6 +10,8 @@ export default class LoginAction {
     static REQUEST_TICKETVALIDATE_FINISHED = 'REQUEST_TICKETVALIDATE_FINISHED';
     static REQUEST_TICKETVALIDATE_FAILED = 'REQUEST_TICKETVALIDATE_FAILED';
 
+    static DELETE_LOG_TIME = 'DELETE_LOG_TIME';
+
     static LoginSSO(username, pass) {
         return async (dispatch) => {
             await ActionUtil.createThunkEffect(dispatch, LoginAction.REQUEST_LOGIN, LoginEffect.DoLogin, username, pass)

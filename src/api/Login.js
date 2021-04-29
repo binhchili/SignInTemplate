@@ -1,7 +1,4 @@
 import { base } from './base';
-
-
-
 export default {
     ssoLogin: (username, password) =>
         base({
@@ -9,7 +6,7 @@ export default {
             url: `sso/login`,
             data: {
                 username, password,
-                method: JWT
+                authMethod: "JWT"
             }
         }),
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'raect-redux';
+import { connect } from 'react-redux';
 import { View, SafeAreaView, Text, Image } from 'react-native';
 import { styles } from './style';
 import { InputField } from '../../components/InputField';
@@ -38,8 +38,10 @@ const LoginScreen = (props) => {
     }, [ticket])
 
     useEffect(() => {
-        if (logTime != null && logTime != undefined) navigation.navigate('Home');
+        if (logTime != null && logTime != undefined) navigation.navigate('MainApp');
     }, [logTime])
+
+
     return (
         <SafeAreaView>
             <View style={styles.mainScreen}>
@@ -64,7 +66,7 @@ const LoginScreen = (props) => {
 const mapStateToProps = state => ({
     logging: state.LoginReducer.logging,
     ticket: state.LoginReducer.ticket,
-    logTime: state.Login.LoginReducer.loggedTime,
+    logTime: state.LoginReducer.loggedTime,
     isError: state.LoginReducer.error,
     msg: state.LoginReducer.message
 })

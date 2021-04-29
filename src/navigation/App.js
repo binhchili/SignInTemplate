@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../screens/LoginScreen';
@@ -7,12 +7,19 @@ import MainAppNavigator from './MainAppNavigator';
 import { persistor, store } from '../redux-store/Storage';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import LoginAction from '../redux-store/login/LoginAction'
 const Root = createStackNavigator();
 
 export default function App() {
+
+    useEffect(() => {
+        return () => {
+            store.dispatch({ type: LoginAction.DELETE_LOG_TIME })
+        }
+    })
     return (
         <Provider store={store}>
-            <PersistGate persistor={persistor} loading={LoadingScreen}>
+            <PersistGate persistor={persistor} loading={<LoadingScreen />}>
                 <NavigationContainer >
                     <Root.Navigator initialRouteName='Login'>
                         <Root.Screen name='Login' component={LoginScreen} options={{ headerShown: false }} />

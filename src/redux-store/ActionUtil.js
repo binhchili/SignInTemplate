@@ -5,17 +5,26 @@ export default class ActionUtil {
 
     const response = await effect(...args);//call api
 
-    if (response instanceof ResponseModel) { //dispatch action finished neu tra ve du lieu thanh cong
+    if (ActionUtil.checkObjectType(response)) { //dispatch action finished neu tra ve du lieu thanh 
+
       dispatch(
         ActionUtil.createAction(`${actionType}_FINISHED`, response.code, response.paramCode, response.status, response.data),
+
       );
+
     }
 
 
     return response;
   }
 
-  static createAction(type, code, param = null, status, data = null) {//ham tao action la plain js object
+  static createAction(type, code = null, param = null, status = null, data = null) {//ham tao action la plain js object
     return { type, code, param, status, data };
+  }
+
+  static checkObjectType(obj) {
+    if (typeof obj != "object" || obj == null) return false
+    else if (obj.code == undefined) return false
+    else return true
   }
 }
