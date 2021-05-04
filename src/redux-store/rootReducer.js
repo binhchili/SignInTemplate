@@ -7,10 +7,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const loginPersistConfig = {
     key: 'loginInfo',
     storage: AsyncStorage,
-    blacklist: ['loggedTime']
+    whitelist: ['ticket']
 };
 export const RootReducer = combineReducers({
     loginInfo: persistReducer(loginPersistConfig, LoginReducer),
-    userInfo: UserReducer
+    userInfo: UserReducer,
+
+    loading: (state = false, action) => {
+        return
+    }
 })
 

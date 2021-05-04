@@ -10,7 +10,9 @@ export default class LoginAction {
     static REQUEST_TICKETVALIDATE_FINISHED = 'REQUEST_TICKETVALIDATE_FINISHED';
     static REQUEST_TICKETVALIDATE_FAILED = 'REQUEST_TICKETVALIDATE_FAILED';
 
-    static DELETE_LOG_TIME = 'DELETE_LOG_TIME';
+    static REQUEST_LOGOUT = 'REQUEST_LOGOUT';
+    static REQUEST_LOGOUT_FINISHED = 'REQUEST_LOGOUT_FINISHED';
+    static REQUEST_LOGOUT_FAILED = 'REQUEST_LOGOUT_FAILED';
 
     static LoginSSO(username, pass) {
         return async (dispatch) => {
@@ -21,6 +23,12 @@ export default class LoginAction {
     static ValidateTicket(ticket) {
         return async (dispatch) => {
             await ActionUtil.createThunkEffect(dispatch, LoginAction.REQUEST_TICKETVALIDATE, LoginEffect.SendTicketValidate, ticket)
+        }
+    }
+
+    static LogoutSSO(ticket) {
+        return async (dispatch) => {
+            await ActionUtil.createThunkEffect(dispatch, LoginAction.REQUEST_LOGOUT, LoginEffect.LogOut, ticket)
         }
     }
 }

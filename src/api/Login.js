@@ -18,5 +18,13 @@ export default {
                 appCode, ticket
             }
         }),
+    logout: ticket =>
+        base({
+            method: 'GET',
+            url: 'sso/logout',
+            params: {
+                ticket
+            }
+        })
 
 };

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { View, SafeAreaView, Text, Image } from 'react-native';
 import { styles } from './style';
 import { InputField } from '../../components/InputField';
+import { SmallNotify } from '../../components/SmallNotify';
 import Login from '../../api/Login';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -10,7 +11,7 @@ import LoginAction from '../../redux-store/login/LoginAction';
 
 const LoginScreen = (props) => {
 
-    const { logging, ticket, logTime, isError, msg } = props; // state cua phan login
+    const { logging, ticket, logTime, isError, msg, time } = props; // state cua phan login
     const { login, validate } = props;//dispatch action phan login
     const navigation = useNavigation();
     const [userLogin, setUserLogin] = useState({
@@ -24,43 +25,40 @@ const LoginScreen = (props) => {
     const LoginPress = () => {
         login(userLogin.username, userLogin.password);
     }
-
-    useEffect(() => {
-        console.log("Logging: " + logging);
-    }, [logging])
-
     useEffect(() => {
         if (isError) console.log("error happened: " + msg);
-    }, [isError])
+    }, [time])
 
     useEffect(() => {
         if (ticket !== null && ticket != undefined) validate(ticket)
     }, [ticket])
 
     useEffect(() => {
-        console.log(logTime);
-        console.log(ticket);
         if (logTime != null && logTime != undefined) navigation.navigate('MainApp');
     }, [logTime])
 
+    useEffect(() => {
+        console.log(msg);
+    }, [])
 
     return (
-        <SafeAreaView>
-            <View style={styles.mainScreen}>
-                <View style={styles.logoScreen}>
 
-                </View>
-                <View style={styles.inputContainer}>
-                    <InputField container={styles.inputField} imageView={styles.imageView} image={styles.image} inputView={styles.mainInput} placeholder='Username'
-                        source={require('../../assets/res/UserLogo.jpg')} value={userLogin.username} onChange={updateUsername} />
-                    <InputField container={styles.inputField} imageView={styles.imageView} image={styles.image} inputView={styles.mainInput} placeholder='Password'
-                        source={require('../../assets/res/PassLogo.png')} value={userLogin.password} onChange={updatePassword} />
-                    <TouchableOpacity style={styles.logButton} onPress={LoginPress}>
-                        <Text style={{ fontSize: 14 }}>Login</Text>
-                    </TouchableOpacity>
-                </View>
+        <View style={styles.mainScreen}>
+            <View style={styles.logoScreen}>
+
             </View>
-        </SafeAreaView>
+            <View style={styles.inputContainer}>
+                <InputField container={styles.inputField} imageView={styles.imageView} image={styles.image} inputView={styles.mainInput} placeholder='Username'
+                    source={require('../../assets/res/UserLogo.jpg')} value={userLogin.username} onChange={updateUsername} />
+                <InputField container={styles.inputField} imageView={styles.imageView} image={styles.image} inputView={styles.mainInput} placeholder='Password'
+                    source={require('../../assets/res/PassLogo.png')} value={userLogin.password} onChange={updatePassword} />
+                <TouchableOpacity style={styles.logButton} onPress={LoginPress}>
+                    <Text style={{ fontSize: 14 }}>Login</Text>
+                </TouchableOpacity>
+            </View>
+            <SmallNotify message={msg} toogleTime={time} />
+        </View>
+
 
     )
 }
@@ -70,7 +68,8 @@ const mapStateToProps = state => ({
     ticket: state.loginInfo.ticket,
     logTime: state.loginInfo.loggedTime,
     isError: state.loginInfo.error,
-    msg: state.loginInfo.message
+    msg: state.loginInfo.message,
+    time: state.loginInfo.actionTime
 })
 
 const mapDispatchToProps = dispatch => ({

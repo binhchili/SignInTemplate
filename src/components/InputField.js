@@ -19,11 +19,11 @@ export const InputField = React.memo(props => {
       />
     </View>
   );
-}, areEqual);
+});
 
 const areEqual = (prevProps, nextProps) => {
-  console.log(prevProps + " " + nextProps);
-  return prevProps.value == nextProps.value;
+
+  return true;
 };
 
 const styles = StyleSheet.create({

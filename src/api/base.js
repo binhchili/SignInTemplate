@@ -9,12 +9,5 @@ export const base = axios.create({
   }
 });
 
-// base.interceptors.request.use(config => {
-//   if (config.url.includes('auth/realms')) {
-//     if (config.method == 'POST')
-//       config.headers.post['Content-type'] = 'application/x-www-form-urlencoded';
-//   }
 
-//   return config;
-// });
 
