@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { Text, StyleSheet, Image, View, TextInput } from 'react-native';
+import equals from 'react-fast-compare';
 
 export const InputField = React.memo(props => {
   /*
@@ -30,12 +31,9 @@ export const InputField = React.memo(props => {
       />
     </View>
   );
-});
+}, equals);
 
-const areEqual = (prevProps, nextProps) => {
 
-  return true;
-};
 
 const styles = StyleSheet.create({
   imageView: {
