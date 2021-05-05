@@ -1,0 +1,36 @@
+cấu trúc project trong file src:
+
+    - api: chứa các api call
+    - assets: chứa file resource như ảnh, font, ...
+    - components: comp hay dùng lại nhiều
+    - constraints: chứa thông tin DOMAIN_NAME, 1 số hằng số hay dùng(color code, SCREEN_WIDTH, SCREEN_HEIGHT,...)
+    - navigation: chứa các Navigator. Cấu trúc như sau:
+ 		AppNavigatior   --- LoginScreen
+				--- DrawerNavigator(login xong sẽ vào đây) -- Drawer(side bar chứa thông tin user)
+									   -- BottomTab(chức các mục chức năng)
+
+     - redux-store: tổ chức thành các folder, mỗi 1 folder ứng với 1 substate, các file ở ngoài chứa state ngoài cùng, 
+và config store. Hiện có các folder sau:
+	+ login: quản lý state phần login: lưu trữ ticket để validate
+        + user: quản lý state phần user: lưu trữ thông tin user sau khi login
+        + popup: chứa message hiện trên popup. Toàn bộ app sẽ chỉ dùng chung 1 popup (SmallNotify trong folder /src/components)
+        + loading: toogle loading khi call api. Toàn bộ app dùng chung 1 modal loading(ModalLoading trong /src/components)
+        + các file riêng lẻ khác: 
+		+ rootReducer: tập hợp toàn bộ subreducer trên
+		+ storage.js: redux storage
+		+ TransformErrorResponse: transform các response lỗi mà server không trả về đc (500, timeout, không có internet,..)
+	        + ActionUtil: chứa logic chung cho redux-thunk. Đọc để hiểu rõ
+	Trong các file substate chứa các file sau:
+	+ Action: action định nghĩa theo thunk. Các action đều sử dụng hàm createThunkEffect để dispatch chuỗi action.
+	+ Effect: thực hiện call api. Có thể log data hay transform response ở đây
+	+ Reducer: reducer của substate tương ứng
+	Với các substate không liên quan tới call api (popup,loading) thì không có effect, không áp dụng thunk
+	Trong project, các action liên quan tới call api (login, logout) thường được chia thành 3 action riêng:
+	 	+ REQUEST_{DO_STH} : call action này trước khi gọi api 
+		+ REQUEST_{DO_STH}_FINSIHED: call action này sau khi call api thành công
+		+ REQUEST_{DO_STH}_FAILED: trường hợp call api không thành công(catch error) thì gọi action này
+
+	Xem file ActionUtil để hiểu rõ
+
+	Cấu trúc redux thunk được dựng theo bài viết này: https://betterprogramming.pub/my-awesome-react-redux-structure-6044e5007e22
+	

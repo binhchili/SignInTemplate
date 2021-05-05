@@ -2,6 +2,17 @@ import React, { useContext, useEffect } from 'react';
 import { Text, StyleSheet, Image, View, TextInput } from 'react-native';
 
 export const InputField = React.memo(props => {
+  /*
+      InputField chua cac props sau:
+      container: style cho container bao lay toan bo InputField nay
+      placholder: nhu thuong,
+      imageView: style cho imageView cua input, thuong se de ben trai
+      image: style cho image
+      source: source cua image, require('../../')
+      inputView: style textInput, ben phai image,
+      value: text trong input
+      onChange: ham thay doi text
+  */
   useEffect(() => {
     console.log(props.placeholder + ' ' + props.value);
   });

@@ -2,7 +2,8 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Image, Text } from 'react-native';
 import { DEEP_BLUE, LIGHT_GRAY } from '../constraints/color';
 
-export const TabBar = ({ state, descriptors, navigation }) => (
+export const TabBar = ({ state, descriptors, navigation }) => (//custom botttom tab cua navigation, len trang chu react navigation co huong dan chi tiet
+
   <View style={styles.tabContainer}>
     {state.routes.map((route, index) => {
       const { options } = descriptors[route.key];

@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { StyleSheet, SafeAreaView, Text, Animated, Platform } from 'react-native';
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../constraints/size';
 
+//hien thi pop up nho ben duoi
 export const SmallNotify = (props) => {
     const { message, toogleTime } = props;//msg: title thong bao, toogleTime: thoi gian popup hien
     const opacity = useRef(new Animated.Value(0)).current;
@@ -19,11 +20,9 @@ export const SmallNotify = (props) => {
     }, [toogleTime])
 
     return (
-
         <Animated.View style={{ ...styles.notify, opacity: opacity, bottom: SCREEN_HEIGHT / 10 }} pointerEvents='none'>
             <Text style={styles.title}>{message}</Text>
         </Animated.View>
-
     )
 }
 

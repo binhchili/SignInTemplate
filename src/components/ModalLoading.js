@@ -4,6 +4,7 @@ import { Spinner } from 'native-base';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../constraints/size';
 
 export const ModalLoading = (props) => {
+    //modal loading khi call api
     return (
         <Modal transparent={true} visible={props.loading}>
             <View style={styles.modalBackground}>
