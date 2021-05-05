@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Modal, View, Dimensions } from 'react-native';
+import { StyleSheet, Modal, View, } from 'react-native';
 import { Spinner } from 'native-base';
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../constraints/size';
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { StyleSheet, View, Text, Animated, Platform } from 'react-native';
+import { StyleSheet, SafeAreaView, Text, Animated, Platform } from 'react-native';
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../constraints/size';
 
 export const SmallNotify = (props) => {
@@ -8,6 +8,7 @@ export const SmallNotify = (props) => {
 
     useEffect(() => {
         //chi khi nao thoi gian dispatch thay doi thi se bat popup, ngoai ra message phai co ki tu
+        console.log("This is " + message);
         if (message != "" && message != null) {
             Animated.sequence([
                 Animated.timing(opacity, { toValue: 0.7, duration: 500, useNativeDriver: true, }),
@@ -18,9 +19,11 @@ export const SmallNotify = (props) => {
     }, [toogleTime])
 
     return (
+
         <Animated.View style={{ ...styles.notify, opacity: opacity, bottom: SCREEN_HEIGHT / 10 }} pointerEvents='none'>
             <Text style={styles.title}>{message}</Text>
         </Animated.View>
+
     )
 }
 
@@ -31,6 +34,6 @@ const styles = StyleSheet.create({
         zIndex: 500
     },
     title: {
-        fontSize: 16, color: 'white'
+        fontSize: 16, color: 'white', textAlign: 'center'
     }
 })
