@@ -9,7 +9,7 @@ const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
     stateReconciler: autoMergeLevel2,
-    blacklist: ['loginInfo']
+    blacklist: ['loginInfo', 'loading', 'userInfo', 'popup']
 
 }//config cách thức lấy data từ localStorage
 const persist = persistReducer(persistConfig, RootReducer);//reducer đã config storage của redux-persist

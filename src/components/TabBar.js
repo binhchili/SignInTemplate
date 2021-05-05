@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   imageView: {
-    height: '80%',
+    height: '50%',
     aspectRatio: 1,
   },
   unfocusTitle: {

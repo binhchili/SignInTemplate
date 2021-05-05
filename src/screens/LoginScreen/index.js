@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { View, SafeAreaView, Text, Image } from 'react-native';
+import { View, Text, Image, SafeAreaView } from 'react-native';
 import { styles } from './style';
 import { InputField } from '../../components/InputField';
-import { SmallNotify } from '../../components/SmallNotify';
-import Login from '../../api/Login';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LoginAction from '../../redux-store/login/LoginAction';
+import LoadingAction from '../../redux-store/loading/LoadingAction';
+import PopupAction from '../../redux-store/popup/PopupAction';
 
 const LoginScreen = (props) => {
 
-    const { logging, ticket, logTime, isError, msg, time } = props; // state cua phan login
-    const { login, validate } = props;//dispatch action phan login
+    const { ticket, logTime, isError, msg, dispatch_time } = props; // state cua phan login
+    const { login, validate, loadingComplete, showPopup } = props;//dispatch action phan login
+    /*
+        login: dispatcha action call api login,
+        validate: dispatch action call api validate,
+        loadingComplete: dispatcha action ket thuc phan loaing (action bat dau loading duoc dispatch trong ActionUtil.createThunkEffect),
+        showPopup: dispatch action hien thi popup thong bao ben duoi
+    */
     const navigation = useNavigation();
     const [userLogin, setUserLogin] = useState({
         username: '',
@@ -23,29 +29,33 @@ const LoginScreen = (props) => {
     const updatePassword = (password) => setUserLogin(prev => ({ ...prev, password }));
 
     const LoginPress = () => {
-        login(userLogin.username, userLogin.password);
+        login(userLogin.username, userLogin.password);//call action login
     }
     useEffect(() => {
-        if (isError) console.log("error happened: " + msg);
-    }, [time])
+        if (isError) {
+            //khi tra ve msg moi, neu msg nay thong bao co loi se thuc hien 2 ham duoi day
+            loadingComplete();//ket thuc loading
+            showPopup(msg);//hien thi thong bao loi
+        }
+    }, [dispatch_time])
 
     useEffect(() => {
+        //khi co ticket moi thi validate ticket do
         if (ticket !== null && ticket != undefined) validate(ticket)
     }, [ticket])
 
     useEffect(() => {
-        if (logTime != null && logTime != undefined) navigation.navigate('MainApp');
+        //login thanh cong khi da validate ticket xong (validate success se update logTime trong redux store)
+        if (logTime != null && logTime != undefined) {
+            console.log('completed');
+            loadingComplete();//login thanh cong se ket thuc viec loading
+            navigation.navigate('MainApp');
+        }
     }, [logTime])
 
-    useEffect(() => {
-        console.log(msg);
-    }, [])
-
     return (
-
         <View style={styles.mainScreen}>
             <View style={styles.logoScreen}>
-
             </View>
             <View style={styles.inputContainer}>
                 <InputField container={styles.inputField} imageView={styles.imageView} image={styles.image} inputView={styles.mainInput} placeholder='Username'
@@ -56,25 +66,26 @@ const LoginScreen = (props) => {
                     <Text style={{ fontSize: 14 }}>Login</Text>
                 </TouchableOpacity>
             </View>
-            <SmallNotify message={msg} toogleTime={time} />
         </View>
-
-
     )
 }
 
+//map state va cac ham dispatch tu redux store xuong component con
+
 const mapStateToProps = state => ({
-    logging: state.loginInfo.logging,
     ticket: state.loginInfo.ticket,
     logTime: state.loginInfo.loggedTime,
     isError: state.loginInfo.error,
     msg: state.loginInfo.message,
-    time: state.loginInfo.actionTime
+    dispatch_time: state.loginInfo.dispatch_time,
+    popup: state.popup,
 })
 
 const mapDispatchToProps = dispatch => ({
     login: (username, password) => dispatch(LoginAction.LoginSSO(username, password)),
-    validate: tick => dispatch(LoginAction.ValidateTicket(tick))
+    validate: tick => dispatch(LoginAction.ValidateTicket(tick)),
+    loadingComplete: () => dispatch({ type: LoadingAction.TOOGLE_LOADING, isLoading: false }),
+    showPopup: message => dispatch({ type: PopupAction.SHOW_POP_UP, message, dispatch_time: new Date() })
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)
